@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const projectsRoutes = require("./routes/projects");
+const projectsRoutes = require("./routes/projectRoutes");
 const mongoose = require("mongoose");
 
 const app = express();
