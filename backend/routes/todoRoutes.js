@@ -3,7 +3,7 @@ const Todo = require("../models/todoModel");
 const {
   getTodo,
   deleteTodos,
-  getTodo,
+  getTodos,
   createTodo,
   deleteTodo,
   updateTodo,
