@@ -21,9 +21,11 @@ const projectSchema = new Schema(
               required: false,
             },
             info: {
+              type: String,
               required: false,
             },
             state: {
+              type: String,
               required: false,
             },
             checked: {
