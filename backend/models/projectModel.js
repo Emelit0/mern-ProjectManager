@@ -2,6 +2,28 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const todoSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: false,
+    },
+    info: {
+      type: String,
+      required: false,
+    },
+    checked: {
+      type: Boolean,
+      required: false,
+    },
+    date: {
+      type: Date,
+      required: false,
+    },
+  },
+  { timestamps: true }
+);
+
 const projectSchema = new Schema(
   {
     title: {
@@ -12,31 +34,7 @@ const projectSchema = new Schema(
       type: String,
       required: false,
     },
-    todos: [
-      {
-        type: new mongoose.Schema(
-          {
-            title: {
-              type: String,
-              required: false,
-            },
-            info: {
-              type: String,
-              required: false,
-            },
-            state: {
-              type: String,
-              required: false,
-            },
-            checked: {
-              type: Boolean,
-              required: false,
-            },
-          },
-          { timestamps: true }
-        ),
-      },
-    ],
+    todos: [todoSchema],
   },
   { timestamps: true }
 );
