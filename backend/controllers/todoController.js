@@ -54,7 +54,7 @@ const createTodo = async (req, res) => {
   const { title, info, checked } = req.body;
   console.log(req.params);
   try {
-    const todo = await Project.updateOne(
+    const todo = await Project.findByIdAndUpdate(
       { _id: id },
       {
         $push: {
