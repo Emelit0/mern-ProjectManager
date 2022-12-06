@@ -1,5 +1,5 @@
 const express = require("express");
-const Todo = require("../models/todoModel");
+const Project = require("../models/projectModel");
 const {
   getTodo,
   deleteTodos,
@@ -19,7 +19,7 @@ router.get("/:id", getTodo);
 
 router.post("/:id/todos", createTodo);
 
-router.delete("/:id", deleteTodo);
+router.delete("/:id/todos/:todoid", deleteTodo);
 
 router.patch("/:id/todos/:todoid", updateTodo);
 

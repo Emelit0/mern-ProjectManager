@@ -34,19 +34,30 @@ const getTodo = async (req, res) => {
 };
 
 const deleteTodo = async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
+  const todoid = req.params.todoid;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "todo not found" });
+    res.status(404).json({ error: "couldnt find todo" });
   }
+  try {
+    const todo = await Project.findOneAndUpdate(
+      { _id: id, "todos._id": todoid },
+      {
+        $pull: {
+          todos: { _id: todoid },
+        },
+      },
+      { new: true }
+    );
 
-  const todo = await Todos.findByIdAndDelete({ _id: id });
-
-  if (!todo) {
-    return res.status(404).json({ error: "todo not found" });
+    if (!todo) {
+      return res.status(400).json({ error: "couldnt find todo" });
+    }
+    res.status(200).json(todo);
+  } catch {
+    res.status(400).json({ error: "could not get todo" });
   }
-
-  res.status(200).json(todo);
 };
 
 const createTodo = async (req, res) => {
