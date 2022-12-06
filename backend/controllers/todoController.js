@@ -51,8 +51,11 @@ const deleteTodo = async (req, res) => {
 
 const createTodo = async (req, res) => {
   const { id } = req.params;
-  const { title, info, checked } = req.body;
-  console.log(req.params);
+  const { title, info, checked, date } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    res.status(404).json({ error: "id not valid" });
+  }
   try {
     const todo = await Project.findByIdAndUpdate(
       { _id: id },
@@ -62,11 +65,18 @@ const createTodo = async (req, res) => {
             title: title,
             info: info,
             checked: checked,
+            date: date,
           },
         },
       },
       { new: true }
     );
+
+    if (!todo) {
+      return res
+        .status(400)
+        .json({ error: "coul not execute operation on todo" });
+    }
     res.status(200).json(todo);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -74,19 +84,34 @@ const createTodo = async (req, res) => {
 };
 
 const updateTodo = async (req, res) => {
-  const { id } = req.params;
+  const id = req.params.id;
+  const todoid = req.params.todoid;
+  const { title, info, checked, date } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     res.status(404).json({ error: "couldnt find todo" });
   }
+  try {
+    const todo = await Project.findOneAndUpdate(
+      { _id: id, "todos._id": todoid },
+      {
+        $set: {
+          "todos.$.title": title,
+          "todos.$.info": info,
+          "todos.$.checked": checked,
+          "todos.$.date": date,
+        },
+      },
+      { new: true }
+    );
 
-  const todo = await Todos.findByIdAndUpdate({ _id: id }, { ...req.body });
-
-  if (!todo) {
-    return res.status(400).json({ error: "couldnt find todo" });
+    if (!todo) {
+      return res.status(400).json({ error: "couldnt find todo" });
+    }
+    res.status(200).json(todo);
+  } catch {
+    res.status(400).json({ error: "could not get todo" });
   }
-
-  res.status(200).json(todo);
 };
 
 module.exports = {

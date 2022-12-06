@@ -17,10 +17,10 @@ router.delete("/", deleteTodos);
 
 router.get("/:id", getTodo);
 
-router.post("/:id", createTodo);
+router.post("/:id/todos", createTodo);
 
 router.delete("/:id", deleteTodo);
 
-router.patch("/:id", updateTodo);
+router.patch("/:id/todos/:todoid", updateTodo);
 
 module.exports = router;
