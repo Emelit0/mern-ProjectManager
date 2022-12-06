@@ -24,4 +24,4 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/projects/", projectsRoutes);
-app.use("/api/projects/:id/", todoRoutes);
+app.use("/api/projects/", todoRoutes);

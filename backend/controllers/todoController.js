@@ -51,21 +51,21 @@ const deleteTodo = async (req, res) => {
 
 const createTodo = async (req, res) => {
   const { id } = req.params;
-  const { title, info, checked, date } = req.body;
+  const { title, info, checked } = req.body;
   console.log(req.params);
   try {
-    const todo = await Project.findByIdAndUpdate(
+    const todo = await Project.updateOne(
       { _id: id },
       {
         $push: {
-          "Project.todos": {
+          todos: {
             title: title,
             info: info,
             checked: checked,
-            date: date,
           },
         },
-      }
+      },
+      { new: true }
     );
     res.status(200).json(todo);
   } catch (error) {

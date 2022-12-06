@@ -17,7 +17,7 @@ router.delete("/", deleteTodos);
 
 router.get("/:id", getTodo);
 
-router.post("/", createTodo);
+router.post("/:id", createTodo);
 
 router.delete("/:id", deleteTodo);
 
